@@ -1,0 +1,1810 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{ wasysym }
+\usepackage{tcolorbox}
+
+%\usepackage[french]{babel}
+\usepackage[a4paper, margin=1.5cm]{geometry}
+
+\title{Mémoire}
+\author{Cyprien Ciotta}
+\date{dernière mise à jour : 5 juillet 2024}
+
+%mathscr
+\newcommand{\C}{\mathbb{C}} %complexe
+\newcommand{\T}{\mathcal{T}} %espace topo ?
+\newcommand{\R}{\mathbb{R}} %réel
+\newcommand{\Proj}{\mathbb{P}} %espace projectif
+\newcommand{\A}{\mathbb{A}} %anneau
+\newcommand{\F}{\mathbb{F}} %corps Z/pZ
+\newcommand{\K}{\mathbb{K}} %corps
+\newcommand{\N}{\mathbb{N}} %entiers
+\newcommand{\Z}{\mathbb{Z}} %entiers relatifs
+\newcommand{\Pre}{\mathcal{P}} %nombres premiers
+\newcommand{\B}{\mathcal{B}} % une base ?
+\newcommand{\V}{\mathscr{V}} %pour les voisinages
+
+\theoremstyle{definition} %pour enlever l'italique par défaut
+%theoremestyle{plain} pour italique, et il faut les mettre dans l'ordre dans les newtheorem
+
+
+\newtheorem{defi}{Définition}
+\newtheorem{rmq}{Remarque}
+\newtheorem{lem}{Lemme}
+\newtheorem{thm}{Théorème}
+\newtheorem{prop}{Proposition}
+\newtheorem{ex}{Exemple}
+\newtheorem{dem}{Démonstration}
+\newtheorem{rap}{Rappel}
+\newtheorem{nota}{Notation}
+\newtheorem{exo}{Exercice}
+\newtheorem{propri}{Propriété}
+\newtheorem{att}{Attention}
+\newtheorem{cor}{Corollaire}
+
+
+
+\setlength{\parindent}{0pt} %enlève l'indentation des nouveaux paragraphes, sinon utiliser noident
+
+
+\newcommand{\lam}[1]{\Lambda^{#1} (\R^n)}
+\newcommand{\OM}[1]{\Omega^{#1} (\R^n)}
+
+\newcommand{\derp}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\rond}{\circ}
+
+\newcommand{\tend}{\longrightarrow}
+\newcommand{\tendqd}[2]{\underset{#1 \tend #2}{\tend}}
+\newcommand{\dd}{ \mathrm{d}}
+\newcommand{\1}{\mathbb{1}} % indicatrice
+\newcommand{\loi}{\mathcal{L}} %Lie ?
+
+\begin{document}
+
+\maketitle
+
+\section{Préambule}
+On regroupe ici les différents éléments nécessaires à l'élaboration du mémoire. C'est pour le moment plus un bric-à-brac qu'un début de rédaction.
+Dans tout ce document, $n$ et $k$ désigne par défaut chacun un entier naturel non nul.
+On se permet pour le moment aussi les abréviations courantes (s)ev pour (sous-)espace vectoriel...
+%On entrecoupe le déroulé du mémoire avec des remarques dites culturelles qui peuvent éclairer le lecteur avisé.
+
+
+\section{Formes différentielles}
+Le but de cette section est d'arriver le plus rapidement possible à manipuler les formes différentielles qui sont une notion de calcul différentiel extérieur.
+
+\subsection{Un peu de géométrie différentielle}
+
+\subsubsection{Champs de vecteurs et espaces tangents}
+
+\begin{defi}[Espace tangent en un point]
+Soit $p \in \R^n$. On appelle espace tangent l'ensemble suivant
+$$T_p\R^n = \{X_p \in \R^n \mid \exists \varepsilon >0 \mid \exists \gamma : ]-\varepsilon,\varepsilon[ \to \R^n \text{ lisse} \mid \gamma(0) = p \text{ et }\gamma'(0) = X_p \}$$
+\end{defi}
+
+\begin{defi}[Espace tangent]
+\end{defi}
+
+\begin{propri}
+L'espace tangent en un point de $\R^n$ est isomorphe à $\R^n$ lui-même.
+\end{propri}
+
+\begin{rmq}
+La définition précédente est donc très adaptée au cas de $\R^n$. Mais il est d'usage courant de traiter de champs de vecteurs sur une sphère par exemple. La définition de l'espace tangent est en fait indépendante du système de coordonnées comme le montre ce qui suit. Culture : Ce sont les cartes qui donnent les coordonnées.
+\end{rmq}
+
+\begin{nota}
+On note $\V(a)$ un des voisinages du point $a$, choisi arbitrairement.
+\end{nota}
+
+\begin{defi}[chemins équivalents]
+Soit $\gamma_1 : \V(0) \to \R^n$ et $\gamma_2 : \V(0) \to \R^n$ deux chemins. 
+On dit que $\gamma_1$ et $\gamma_2$ sont équivalents lorsque 
+$$||\gamma_1(t) - \gamma_2(t) ||= o(t) \text{ quand } t \to 0$$ 
+
+\end{defi}
+
+\begin{defi}[Définition alternative de l'espace tangent]
+L'espace tangent peut être vu comme le quotient des chemins par la relation d'équivalence introduite dans la définition précédente.
+\end{defi}
+
+\begin{defi}[fibré tangent]
+C'est :
+$$T\R^n = \{(p,X_p)\}_{p \in \R^n , X_p \in T_p\R^n}$$
+\end{defi}
+
+\begin{defi}[Champ de vecteurs]
+Un champ de vecteurs X est une application :
+$$X : \R^n \to T \R^n$$
+\end{defi}
+
+Pour simplifier les énoncés qui sont identiques en dimension supérieure, nous nous plaçons, comme cela se fait souvent pour éviter le recours aux indices, dans $\R^3$, de manière à noter les variables $x$, $y$ et $z$ comme usuellement.
+
+\begin{nota}
+On note $(\frac{\partial}{\partial x})_p$ la courbe lisse $x(t)=p + t(1,0,0)$ , 
+$(\frac{\partial}{\partial y})_p$ la courbe lisse $x(t)=p + t(0,1,0)$ , 
+$(\frac{\partial}{\partial z})_p$ la courbe lisse $z(t)=p + t(0,0,1)$.
+\end{nota}
+
+\begin{ex}[Champ de vecteurs remarquables]
+$$\frac{\partial}{\partial x} : p \mapsto (p,(\frac{\partial}{\partial x})_p) \text{ , } \frac{\partial}{\partial y} : p \mapsto (p,(\frac{\partial}{\partial y})_p) \text{ , } \frac{\partial}{\partial z} : p \mapsto (p,(\frac{\partial}{\partial y})_p)$$
+sont d'importance fondamentale puisqu'ils forment une base comme l'indique la proposition suivante.
+\end{ex}
+
+La proposition suivante indique que ces opérateurs différentiels permettent essentiellement de décrire les champs de vecteurs au sens où ils en forment une base.
+% il existe unique !!
+
+\begin{prop}
+Soit $X$ un champ de vecteurs de $\R^3$.
+Alors il existe pour i allant de 1 à 3 des fonctions des coordonnées $a_i : \R^3 \to \R$ telles que
+
+$$X=a_1 \frac{\partial}{\partial x} + a_2 \frac{\partial}{\partial y} + a_3 \frac{\partial}{\partial z}$$
+c'est-à-dire
+$$\forall p \in \R^3, X(p)=a_1(p) \frac{\partial}{\partial x}(p) + a_2(p) \frac{\partial}{\partial y}(p) + a_3(p) \frac{\partial}{\partial z}(p)$$
+
+\end{prop}
+
+NB parfois c'est cette proposition qui est donnée comme définition, tellement c'est cela qui sert en pratique.
+
+\begin{dem}
+\end{dem}
+
+\begin{rap}[Dérivée directionnelle]
+Avec les notations usuelles, on rappele que la dérivée de $f$ le long du vecteur $v$ prise en $a$ est donnée par
+$$\derp{f}{v} (a)= \lim_{t \to 0} \frac{f(a+tv)}{t}$$
+\end{rap}
+
+\begin{defi}[Définition alternative]
+$$\gamma : f \mapsto \derp{}{t} f(\gamma(t))|_{t=0}$$
+\end{defi}
+
+\begin{defi}[Espace cotangent]
+On le note $(T \R^3)^*$ : c'est tout simplement le dual de l'espace tangent.
+\end{defi}
+
+\begin{nota}
+cf page 21 par exemple du document pour les notations qui suivent.
+\end{nota}
+
+\begin{propri}[base]
+$(dx)_p , (dy)_p , (dz)_p$ forment une base de l'espace cotangent.
+\end{propri}
+
+\begin{defi}[fibré cotangent]
+
+\end{defi}
+
+\subsubsection{Variété différentielle}
+
+Cette notion de variété, assez incontournable, mérite qu'on s'y attarde un petit peu, car dans la suite on l'utilise, même si ce sera de façon plutôt intuitive.
+La notion de base est la suivante :
+
+\begin{defi}[Variété topologique]
+    Une variété topologique est un espace topologique localement homéomorphe à $\R^n$.
+\end{defi}
+
+\begin{rmq}
+    On exige tellement souvent que l'espace topologique soit séparé que la terminologie variété topologique séparé est presque sous-entendue par celle de variété topologique, ce qu'on se permet de faire dans la suite.
+\end{rmq}
+
+On peut donner plus de structure pour pouvoir faire du calcul différentiel. Cela donne naissance à la notion de variété différentielle.
+
+\begin{defi}[Variété différentielle]
+C'est une variété topologique à laquelle la structure suivante est ajoutée :
+\begin{enumerate}
+    \item 
+    \item
+    \item
+\end{enumerate}
+\end{defi}
+
+Ceci fait de $\R^n$ une variété différentielle. L'intérêt pour nous est que la sphère $S^n$, le tore sont des v
+
+
+\subsection{Formes extérieures}
+\begin{nota}[sur les formes linéaires]
+On note $\Lambda^1 (\R^n)$ le dual $(\R^n)^*$ en vue d'une généralisation. En fait, les formes linéaires sont aussi appelées les 1-formes extérieures.
+\end{nota}
+
+\begin{nota}[formes linéaires coordonnées]
+On note, pour i compris entre 1 et n, $dx_i$ la 1-forme extérieure qui envoie un vecteur \textit{tangent} de $\R^n$ sur sa i-ième coordonnée.
+\end{nota}
+
+\begin{rmq}[nuance vecteur/vecteur tangent et action des formes différentielles]
+
+\end{rmq}
+
+\begin{defi}[Produit extérieur]
+On appelle produit extérieur de deux 1-formes extérieures $\omega_1$ et $\omega_2$ l'application suivante :
+$$\omega_1 \wedge \omega_2 : \R^n \times \R^n \to \R^n, \quad (u,v) \mapsto \begin{vmatrix}
+    \omega_1(u) & \omega_2(u) \\
+    \omega_1(v) & \omega_2(v) \\
+\end{vmatrix}  $$
+\end{defi}
+\begin{rmq}
+Cette application est bilinéaire et antisymétrique.
+\end{rmq}
+\begin{defi}[2-forme extérieure]
+On appelle 2-forme extérieure un élément de l'ensemble suivant
+$$\Lambda^2 (\R^n) := \{\omega_1 \wedge \omega_2\}_{\omega_1,\omega_2 \in \Lambda^1 (\R^n)}$$
+\end{defi}
+\begin{rmq}
+Les définitions ont été données pour le cas n=2 mais elle se généralise sans difficulté supplémentaire comme on le pense en dimension supérieure.
+\end{rmq}
+
+\begin{defi}[Application $\wedge$]
+On peut définir plus généralement une application $\wedge$ :
+$$\wedge : \Lambda^1(\R^n) \times \Lambda^1(\R^n) \to \Lambda^2(\R^n) , (\omega_1,\omega_2) \mapsto \omega_1 \wedge \omega_2$$
+\end{defi}
+\begin{propri}
+Cette application est bilinéaire alternée.
+\end{propri}
+\begin{propri}
+En particulier,
+$$\forall \omega \in \lam{1}, \omega \wedge \omega = 0_{\lam{2}}$$
+ce qui simplifie grandement les calculs
+\end{propri}
+\begin{ex}
+Supposons n=3.
+On souhaite calculer le produit extérieur de $\omega_1=3dx_1+5dx_2+8dx_3 \in \lam{1}$ et $\omega_2=7dx_1 \wedge dx_2 +3dx_2 \wedge dx_3 +2dx_1 \wedge dx_3 \in \lam{2}$
+On obtient un élément de $\lam{3}$ qui a donc pour base $(dx_1 \wedge dx_2 \wedge dx_3)$. LA coordonnée s'obtient alors avec le calcul suivant
+$3 \times 3 + 5 \times 2 + 8 \times 7=75$.
+On voit que l'associativité du produit extérieur (couplée à la propriété d'antisymétrie) est cruciale.
+\end{ex}
+\begin{propri}[base de $\lam{k}$]
+Dans l'exemple précédent, les calculs sont faits dans la base
+$$(dx_{i_1},dx_{i_2},...,dx_{i_k})_{1 \leq i_1 < i_2 < ... < i_k \leq n}$$
+\end{propri}
+
+\begin{propri}[dimension]
+$$\dim \lam{k} = \binom{n}{k}$$
+\end{propri}
+
+\begin{defi}[Algèbre extérieure]
+On appelle algèbre extérieure la somme directe :
+$$\Lambda(\R^n) = \bigoplus_{k=1}^{n} \lam{k}$$
+\end{defi}
+\begin{propri}[Dimension]
+$$\dim \Lambda(\R^n) = 2^n$$
+\end{propri}
+
+\begin{dem}
+Conséquence immédiate du binôme de Newton.
+\end{dem}
+
+
+\subsection{Manipulation des formes différentielles}
+Le produit extérieur permet de définir les formes différentielles.
+\begin{defi}[formes différentielles]
+On dit que $\omega$ est une k-forme différentielle sur $\R^n$ si
+$$\omega = \sum_{1\leq i_1 < i_2 < ... <i_k \leq n} f_{i_1 i_2 ... i_k} dx_{i_1} \wedge dx_{i_2} \wedge ... \wedge dx_{i_k}$$
+où tous les $f_{i_1 i_2 ... i_k}$ sont des fonctions de $\R^n $ dans $ \R$ lisses c'est-à-dire de classe $\C^\infty$.
+\end{defi}
+\begin{nota}[Espace des formes différentielles]
+Un tel $\omega$ est dit élément de $\Omega^k(\R^n)$
+\end{nota}
+\begin{rmq}
+Une k-forme différentielle $\omega \in \OM{k}$ évaluée en un point $p \in \R^n$ est une k-forme extérieure $\omega(p) \in \Lambda^k(T_p\R^n)$ sur l'espace tangent.
+\end{rmq}
+
+\begin{rmq}[cas k=0]
+Les 0-formes différentielles sont en fait les fonctions lisses.
+\end{rmq}
+\begin{rmq}[cas k=1]
+Les 1-formes différentielles ont une expression maniable : 
+$$\omega = f_1 dx_1 + ... + f_ndx_n$$
+où là aussi les $f_i$ sont lisses.
+\end{rmq}
+\begin{rmq}[cas k=2]
+Nous donnons enfin le cas k=2 car les k supérieurs ne nous occuperont que peu dans la suite, et que c'est à partir de 2 que la notion de produit extérieur devient cruciale.
+Supposons de plus $n=3$ pour que l'écriture soit complète mais concise. Alors il existe des fonctions lisses $f_{i,j}$ telles que
+$$\omega = f_{1,2} \dd x_1 \dd x_2 + f_{1,3} \dd x_1 \dd x_3 + f_{2,1} \dd x_2 \dd x_1 + f_{2,3} \dd x_2 \dd x_3 + f_{3,1} \dd x_3 \dd x_1 + f_{3,2} \dd x_3 \dd x_2$$
+Nous avons déjà utilisé la propriété 4 ce qui dispense d'ajouter les $\dd x_i \dd x_i$.
+Mais on a mieux, la propriété d'antisymétrie raccourcit encore l'expression.
+Quitte à renommer les fonctions, il reste simplement
+$$\omega = f_{1,2} \dd x_1 \dd x_2 + f_{1,3} \dd x_1 \dd x_3 + f_{2,3} \dd x_3 \dd x_2  $$
+et on retrouve bien une somme à $\binom{3}{2}=3$ termes.
+
+
+\end{rmq}
+
+
+\begin{prop}
+Les champs de vecteurs et les 1-formes différentielles sont isomorphes de manière non canonique. Voir pour cela la section suivante.
+\end{prop}
+\begin{propri}[Calcul pratique]
+Si $\alpha \in \Omega^k(\R^n) $ et $ \beta \in \Omega^l(\R^n)$, alors $ \alpha \wedge \beta = (-1)^{kl} \beta \wedge \alpha $
+\end{propri}
+
+\begin{propri}
+$$ \alpha \in \OM{2k+1} \implies \alpha \wedge \alpha =0$$
+\end{propri}
+
+\begin{defi}[Espace des formes différentielles de degré quelconque]
+Comme pour la définition 8
+$$\Omega(V)=\bigoplus_{k=1}^{n} \Omega^k (V)$$
+où V désigne un ouvert d'un certain espace vectoriel.
+\end{defi}
+
+\begin{defi}[dérivée extérieure]
+On appelle dérivée extérieure l'application \textbf{linéaire} $d : \OM{k} \to \OM{k+1}$ telle que
+\begin{itemize}
+\item $d^2=0$
+\item d coïncide avec la différentielle sur $\OM{0}$
+\item d vérifie la propriété de \textbf{Leibniz généralisée}:
+$$\forall \alpha \in \OM{k}, \forall \beta \in \OM{l}, \dd (\alpha \wedge \beta) = \dd \alpha \wedge \beta + (-1)^k \alpha \wedge \dd \beta$$
+\end{itemize}
+\end{defi}
+
+\begin{defi}[fermée]
+Une forme différentielle $\alpha$ est dite fermée lorsque 
+$$\dd \alpha = 0$$
+\end{defi}
+
+\begin{defi}[exacte]
+Une forme différentielle $\alpha \in \OM{k}$ est dite exacte lorsque 
+$$\exists \eta \in \OM{k-1} \mid \alpha = \dd \eta$$
+\end{defi}
+\begin{rmq}[Terminologie]
+On dit que $\eta $ est une primitive de $\alpha$. La question de savoir si une forme différentielle admet une primitive est absolument naturelle. C'est à ce titre que le lemme qui va suivre est tout à fait intéressant.
+\end{rmq}
+
+\begin{propri}[Conséquence immédiate]
+Toute forme différentielle exacte est fermée.
+\end{propri}
+
+On peut bien sûr se demander si on dispose d'une réciproque. La réponse est comme souvent : oui sous certaines hypothèses. Il suffit de supposer le domaine ouvert et étoilé.
+
+\begin{thm}[Lemme de Poincaré]
+Si $U \subset \R^n$ est un ouvert étoilé, alors toute forme différentielle fermée sur U est exacte.
+\end{thm}
+
+\begin{dem}
+
+\end{dem}
+
+La propriété fondamentale de commutation permet d'étendre ce résultat à tout ouvert difféomorphe à une partie étoilée.
+
+%vérifier si c'est à la bonne place !!!
+
+
+
+La notion suivante décrit quelque chose de très intuitif. Cette notion a plus ou moins été appréhendée en analyse complexe.
+\begin{defi}[homotopie]
+Deux applications continues $f,g: X\to Y$ sont \textit{homotope} lorsqu'il existe une application continue $F:X\times [0,1]\to Y$ telle que $F|_{X \times \{0\}}=f$ et $F|_{X\times \{1\}}=g$.
+\end{defi}
+
+\begin{defi}[Cohomologie de De Rham]
+C'est le quotient des formes fermées par les formes exactes.
+\end{defi}
+
+\begin{prop}[Généralisation du lacet de l'analyse complexe]
+\end{prop}
+
+\begin{defi}[Indice d'un champ de vecteurs]
+\end{defi}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Théorème]
+$$\sum_{x pt fixe champ de vecteur} Ind (x) = \chi (\mathcal{M})$$
+\end{tcolorbox}
+et ce quel que soit le champ de vecteur choisi sur la variété !
+Attention : point fixe est ici au compris au sens du flot.
+
+\subsection{Isomorphisme musical}
+
+On suppose que $(E, (\cdot,\cdot) )$ est un espace euclidien. 
+Dans ce cas, à tout vecteur $v\in E$ on peut associer une fonction linéaire $v^*\in E^*$ définie par $v^*(x)=(x,v)$.
+
+En fait, l'isomorphisme musical est entre l'espace tangent et l'espace cotangent.
+
+Il est défini si on a un produit scalaire dans chaque espace tangent.
+
+Moralement, les changements de coordonnées se font avec la règle de la chaine pour les champs de vecteurs tandis qu'il s'agit de la différentiation pour ce qui est des formes différentielles.
+
+confusion Lv avec v (operateur differentiel)
+
+On se réfère à la page 187 de Lafontaine
+
+\begin{ex}[Calcul des coordonnées polaires]
+
+$$dx=d(r\cos\theta)=\cos\theta dr-r\sin\theta d\theta.$$
+\begin{align*}\frac{\partial}{\partial x}=\frac{\partial r}{\partial x}\frac{\partial}{\partial r}+\frac{\partial \theta}{\partial x}\frac{\partial}{\partial \theta}=\frac{\partial \sqrt{x^2+y^2}}{\partial x}\frac{\partial}{\partial r}+\frac{\partial \arctan(y/x)}{\partial x}\frac{\partial}{\partial \theta}=
+\frac{x}{\sqrt{x^2+y^2}}\frac{\partial}{\partial r}-\frac{y}{x^2+y^2}\frac{\partial}{\partial \theta}=
+\cos\theta\frac{\partial}{\partial r}-\frac{\sin\theta}{r}\frac{\partial}{\partial \theta}
+\end{align*}
+
+
+\end{ex}
+
+\begin{rap}[forme quadratique]
+Le mantra est le suivant : une forme quadratique est un polynôme homogène de degré 2.
+\end{rap}
+
+\begin{defi}[forme quadratique sur $\C$]
+    
+\end{defi}
+
+\begin{defi}[métrique]
+$$\sum_{i,j} g_{ij}dx^i\otimes dx^j$$
+\end{defi}
+
+\subsection{Métrique Riemannienne}
+
+\subsection{Quelques autres faits sur les formes différentielles}
+
+\subsubsection{Généralités}
+
+\begin{defi}[tiré en arrière]
+On se donne $U$ et $V$ deux ouverts d'un ev et $f: U \to V$ lisse.
+Le tiré en arrière de f (pull back) ou image réciproque (terminologie beaucoup trop ambiguë) par f de $\alpha \in \Lambda(V)$ la forme différentielle $f*\alpha$ sur U définie par
+$$(f^*a)_x = (T_x f)^\intercal \alpha_{f(x)}$$
+
+$$
+(f^*\alpha)(v_1,\ldots,v_k)=\alpha(f_*(v_1),\ldots,f_*(v_k))
+$$
+
+\end{defi}
+
+\begin{nota}
+Dans toute la suite et sauf mention explicite du contraire, on se munira toujours de $U$ et $V$ deux ouverts d'un ev.
+\end{nota}
+
+\begin{propri}
+On se donne f et g lisse de U dans V ainsi que $\alpha $ et $\beta$ des formes différentielles de degré quelconque.
+\begin{enumerate}
+\item $f^*(\alpha \wedge \beta) = (f^*\alpha) \wedge (f^*\beta)$
+\item $(g \circ f)^*= f^* \circ g^*$
+\end{enumerate} 
+\end{propri}
+
+\begin{propri}[Propriété fondamentale]
+La différentielle et le tiré en arrière (l'image réciproque) commutent.
+Si $\phi :U \to V$ est une fonction lisse entre ouverts d'un ev,
+$$\forall \alpha \in \Omega(V), \phi ^* (d\alpha) = d(\phi ^* \alpha)$$
+\end{propri}
+
+\begin{propri}[Image réciproque en pratique]
+Soit $\alpha = \sum_{1 \leq i_1 < i_2 < ... <i_p \leq m} \alpha_{i_1, i_2, ... , i_p} \dd x_{i_1} ... \dd x_{i_p}$.
+Soit $f=(f_1,...,f_m) \in \mathcal{C}^\infty (U,V)$ avec $U$ et $V$ des ouverts de $\R^n$ et $\R^m$ respectivement.
+Soit $x \in \R^n$.
+Alors $$(f^* \alpha).x = \sum_{1 \leq i_1 < i_2 < ... <i_p \leq m} \alpha_{i_1, i_2, ... , i_p}(f(x)) \dd f_{i_1} ... \dd f_{i_p}$$
+\end{propri}
+
+%problème !!!
+
+\begin{ex}[en dimension 1]
+$(\exp^* \frac{\dd x}{x} ).t = \dd t$.
+En effet,
+la formule donne $(\exp^* \frac{\dd x}{x}).t = \frac{1}{x}(\exp t) \dd \exp $.
+Or, $\dd \exp t = \exp t \dd t$ donc $(\exp^* \frac{\dd x}{x}).t = \exp (-t) \exp t \dd t = \dd t $
+\end{ex}
+
+\begin{ex}[en dimension 2]
+On pose $f(r,\theta)=(r \cos \theta, r \sin \theta)$
+$f^* \dd x \dd y = r \dd r \dd \theta$
+Notons que $\dd \cos \theta = - \sin \theta \dd \theta$ et $\dd \sin \theta = \cos \theta \dd \theta$ ce qui permet d'avoir $\dd \cos \theta \dd \sin \theta=0$.
+En effet, d'après la définition,
+$f^* \dd x \dd y = \dd (r \cos \theta) \dd (r \sin \theta) = (\dd r \cos \theta + r \dd \cos \theta)(\dd r \sin \theta + r \dd \sin \theta)$
+En remarquant en outre que $\dd r \dd r=0$, il ne reste que deux termes :
+$f^* \dd x \dd y = \dd r \cos \theta r \cos \theta \dd \theta - r \sin \theta \dd \theta \dd r \sin \theta$
+Il était important de bien ordonner l'apparition des facteurs dans les termes du développement, puisqu'au prix de l'anticommutation des formes différentielles de degré 1, il vient,
+$f^* \dd x \dd y = r \cos^2 \theta \dd r \dd \theta + r \sin^2 \theta \dd r \dd \theta$.
+La fameuse identité trigonométrique donne la formule escomptée.
+\end{ex}
+
+\subsubsection{exponentielle d'une 2-forme différentielle}
+
+Donnons enfin une notion qui semble un peu plus exotique : celle d'exponentielle de formes différentielles.
+Cette notion est définie exclusivement pour les 2-formes différentielles.
+Soit donc $\omega$ une telle forme.
+Dans ce cas précis, les matrices deviennent un objet pertinent pour encoder une 2-forme différentielle.
+Pour simplifier, on commence par les matrices $(2,2)$.
+On note alors
+$$\omega = a_{11} \dd x_1 \dd y_1 + a_{12} \dd x_1 \dd y_2 + a_{21} \dd x_2 \dd y_1 + a_{22} \dd x_2 \dd y_2$$
+
+
+\begin{defi}[2-forme différentielle associée à une matrice]
+On appelle $A=(a_{i,j})$ la matrice associée à $\alpha = \sum a_{ij} \dd x_i \dd y_j$.
+\end{defi}
+
+Pour notre $\omega$, nous avons comme nous voudrions l'attendre $A = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22}
+\end{pmatrix}$.
+
+\begin{lem}
+$$\omega^3 = 0$$
+\end{lem}
+
+%attention ref ci apres
+
+\begin{dem}
+En fait, $\omega^3$ est une 6-forme. Mais les briques de base sont au nombre de 4 : $\dd x_1$, $\dd x_2$, $\dd y_1$,$\dd y_2$.
+Dans un produit de 5 facteurs, il y aura donc deux facteurs identiques. D'après la propriété 4, un tel produit est nul.
+C'est a fortiori vrai pour 6 facteurs et cela donne le résultat.
+\end{dem}
+
+\begin{rmq}
+De manière évidente, $\forall n \geq 3, \omega^n=0$. Ceci motive la définition qui va suivre.
+\end{rmq}
+
+\begin{defi}[exponentielle d'une forme différentielle]
+$$e^\omega = 1 + \omega + \frac{\omega^2}{2}$$
+\end{defi}
+
+\begin{lem}
+$$\omega^2=2  \det(A)$$
+\end{lem}
+    
+%reffffff!!!
+Pour étoffer notre compréhension des formes différentielles, nous préférons donner une preuve très textuelle plutôt que calculatoire. On peut aussi mener le calcul de but en blanc, mais au fond la preuve réside véritablement dans la compréhension des simplifications qui s'opèrent dans un calcul a priori fastidieux.
+    
+\begin{dem}
+En toute généralité, $(\sum_i \dd x_i)^2= 2 \sum_{i<j} \dd x_i \dd x_j$ car $\sum_i \dd x_i \dd x_i =0$ avec la fameuse propriété 4.
+Cette observation, adaptée à $\omega$, permet de se contenter d'examiner les produits dits croisés.
+
+
+Mais une seconde observation simplifie la tâche : $\omega^2$ est une 4-forme.
+Ainsi, $\dd x_1 \dd y_1 \dd x_2 \dd y_2$ est le seul terme "croisé" qui reste puisque tout autre facteur ferait intervenir deux fois la même différentielle, ce qui rendrait ce facteur nul.
+Il ne nous reste plus qu'à "compter" combien de fois ce facteur intervient.
+
+
+En scrutant $\omega$ puis en utilisant la commutativité des fonctions lisses, on trouve $a_{11} a_{22} - a_{12} a_{21} - a_{21} a_{12} + a_{22} a_{11} = 2 \det(A) $ pour reliquat de la première formule mentionnée dans la démonstration.
+Ceci achève la preuve une fois comprise la subtilité concernant les signes.
+
+
+En effet, le produit $\dd x_1 \dd y_1 \dd x_2 \dd y_2$ a été choisi dans cet ordre.
+Le premier terme correspond exactement à cet ordre.
+Le deuxième terme correspond cependant à l'ordre $\dd x_1 \dd y_2 \dd x_2 \dd y_1 $. En tant que forme de degré 1, il y a simplement anticommutativité.
+Or, pour parvenir à la forme voulue, nous commuton successivement $\dd y_1$ avec $\dd x_2$ puis $\dd y_2$ pour enfin opérer à la troisième et dernière commutation entre $\dd x_2$ et $\dd y_2$. C'est ce $(-1)^3$ que porte le deuxième terme.
+Pour le troisième terme, $- a_{21} a_{12}$ et pour le quatrième, $+ a_{22} a_{11}$. Le travail est lidentique avec $\dd x_2 \dd y_1 \dd x_1 \dd y_2$ et $ \dd x_2 \dd y_2 \dd x_1 \dd y_1$ respectivement.
+Cette fois 3 et 4 commutations respectivement réalisent le produit.
+
+\end{dem}
+
+
+\begin{thm}[génération des mineurs]
+%$$e^{\sum_{i,j} a_{ij} \dd x_i \dd y_j}=\sum_{k=0}^n \big( \underset{j_1 < j_2 < ... < j_k}{\det_{i_1 < i_2 < ... < i_k} A} \big) \dd x_{i_1} ... \dd x_{i_k} \dd y_{j_k} ... \dd y_{j_1}$$
+
+$$\exp\left(\sum_{i,j} M^i_j\xi_i\eta^j\right)=\sum_{k=0}^n\mathop{\sum_{i_1<\cdots<i_k}}_{j_1<\cdots<j_k}M^{i_1,\ldots,i_k}_{j_1,\ldots,j_k}\xi_{i_1}\cdots \xi_{i_k}\eta^{j_k}\cdots\eta^{j_1}$$
+\end{thm}
+
+
+
+\subsection{Dérivée de Lie}
+
+On se donne pour objectif d'arriver dans cette sous-section à la formule de Cartan.
+Cette dernière lie la différentielle, le produit intérieur et la dérivée de Lie, deux nouvelles notions définies ci-après.
+On choisit pour simplifier de perdre la généralité : nous nous intéressons ici à une forme volume $\omega = \dd x_1 \dd x_2 ... \dd x_n$
+On se munit d'un champ de vecteurs $X=X_1 \derp{}{x_1} + ... + X_n \derp{}{x_n}$.
+
+
+\begin{defi}[Dérivée de Lie]
+    C'est l'application
+    \begin{align*} \loi_X : & \OM{p} \to \OM{p} \\
+        & \alpha \mapsto \frac{\dd}{\dd t} \varphi_t^* \alpha \mid_{t=0}
+    \end{align*}
+\end{defi}
+
+\begin{ex}
+Constatons ce que cela donne sur le champ vectoriel le plus simple qu'on puisse imaginer : $X = \partial_i$
+
+\end{ex}
+
+On rappelle à toute fin utile la notion au programme de l'UE équation différentielle qu'est le flot d'un champ de vecteurs.
+
+\begin{defi}[flot]
+    groupe local à un paramètre associé à X
+\end{defi}
+
+\begin{rmq}
+La notation reflète la dépendance en $X$ : la terminologie complète est "dérivée de Lie d'un champ de vecteur".
+\end{rmq}
+
+\begin{thm}[Caractérisation de $\loi_X$]
+    Les propriétés suivantes caractérisent $\loi_X$:
+    \begin{enumerate}
+        \item $\forall f \in \mathcal{C}^\infty(\mathcal{U}), \loi_X f = \dd f (X) = X \centerdot f$
+        \item $\loi_X \rond d = d \rond \loi_X $
+        \item $ \forall \alpha , \beta \in \Omega{\mathcal{U}}, \loi_X (\alpha \wedge \beta) = \loi_X (\alpha) \wedge  \beta + \alpha \wedge \loi_X (\beta)$
+    \end{enumerate}
+\end{thm}
+
+\begin{prop}[Divergence via la dérivée de Lie]
+$$\loi_X (\dd x_1 ... \dd x_n) = \mathrm{div} (X) \dd x_1 ... \dd x_n$$
+\end{prop}
+
+\begin{dem}
+$$ \iota_X \dd x_1\cdots \dd x_n=\sum_{i=1}^{n}(-1)^nX_i\dd x_1\ldots\widehat{\dd{x_i}} \cdots\dd x_n$$
+$$\mathcal{L}_X=\dd(\iota_X \dd x_1 \cdots x_n)=\sum_{i=1}^n\frac{\partial X_i}{\partial x_i}\dd x_1\cdots\dd x_n$$
+
+
+\end{dem}
+
+\begin{defi}[Produit intérieur]
+    Soit $\alpha \in \Omega^p (\mathcal{U})$. Son produit intérieur est donné par
+    $$(\iota_X \alpha)_x (v_1, ..., v_{p-1})= \alpha_x (X_x,v_1,...,v_{p-1})$$
+    On convient que le produit intérieur d'une fonction lisse est nulle.
+\end{defi}
+
+\begin{propri}[Approche alternative du produit intérieur]
+$$\iota_{\derp{}{x_i}} \dd x_j = \delta_{i,j}$$
+\end{propri}
+
+\begin{propri}[antidérivation]
+On se donne deux formes $\alpha$, $\beta$. en notant $l$ le degré de $\alpha$,
+$$ \iota_X ( \alpha \wedge \beta )= \iota_X (\alpha) \wedge \beta + (-1)^l \alpha \wedge \iota_X (\beta)$$
+\end{propri}
+
+Il est important de comprendre que l'opérateur $\dd$ augmente le degré d'une forme alors que $\iota_X$ le diminue.
+
+
+\begin{thm}[Formule de Cartan]
+    $$\loi_X = \dd \rond \iota_X + \iota_X \rond \dd$$
+\end{thm}
+
+
+
+\section{Intégration des formes différentielles}
+
+Le théorème qui suit a un intérêt historique particulier : il porte de nombreux noms. Plus que cela, il est d'usage permanent dans le calcul intégral. 
+Il a aussi des conséquences théoriques (pour l'homologie) que nous n'étudions pas ici.
+Apprécions déjà l'élégance de la formule qui va suivre.
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Théorème de Stokes]
+    Soit X. Soit $\omega$ une forme différentielle.
+    $$\int_{\partial X} \omega = \int_X d \omega$$
+    
+\end{tcolorbox}
+
+\begin{rmq}
+Il y a une distinction entre la mesure $dxdy$ et la forme différentielle $dxdy$ via la valeur absolue.
+\end{rmq}
+
+\begin{ex}[Calcul de $\int_{D(0,1)} x^2 y dx dy$]
+
+    \begin{align*}&\int_{D(0,1)} x^2 y^2 dx dy=\int_{D(0,1)}\frac{1}{3}d(x^3y^2dy)=\int_{C(0,1)}\frac{1}{3}x^3y^2dy=\\=&\int_0^{2\pi}\frac{1}{3}\cos^3t\sin^2td(\sin t)=\int_0^{2\pi}\frac{1}{3}\cos^4t\sin^2tdt=-\frac{1}{192}\int_0^{2\pi}(e^{it}+e^{-it})^4(e^{it}-e^{-it})^2dt=\\=&-\frac{1}{192}\int_0^{2\pi}(e^{-6it}+2e^{-4it}-e^{-2it}-4-e^{2it}+2e^{4it}+e^{-6it})dt=\frac{1}{48}.
+    \end{align*}
+
+\end{ex}
+
+
+\section{Surface de Riemann}
+Le but de cette section est d'arriver le plus rapidement possible à comprendre les surfaces de Riemann.
+
+\begin{defi}[Définition rigoureuse]
+Une surface de Riemann est une variété différentiable de dimension 1 complexe (ou 2 réelle) munie d'un atlas dont les changements de cartes sont holomorphes.
+\end{defi}
+
+On s'intéresse aux surfaces de Riemann compacte.
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Théorème]
+    Toute surface de Riemann compacte est isomorphe à une courbe algébrique projective lisse.
+\end{tcolorbox}
+
+\begin{defi}[sous-variété de $\R^n$]
+Une partie $M \subset \R^n$ est une sous-variété de dimension $p$ de $\R^n$ lorsque
+$$\forall x \in M, \exists f : \V(x) \to \V(0_{\R^n}) \mid f(\V(x) \cap M) = \V(0) \cap (\R^p \times \{0\})$$
+L'entier $n-p$ qui apparaît naturellement dans la définition est la codimension de $M$.
+\end{defi}
+
+\begin{defi}[Variété topologique de dimension $n$]
+C'est un espace topologique séparé $X$ tel que 
+$$\forall x \in X, \exists U \text{ ouvert de X}, \exists V \text{ ouvert de } R^n, \exists \phi : U \to V \text{ homéomorphisme} \mid x \in U $$
+
+\end{defi}
+
+\begin{defi}[Carte]
+Une carte sur une variété topologique $X$ est la donnée d'un couple $(U,\varphi)$ dans lequel $U$ est un ouvert de $X$ et $\varphi : U \to V$ est un homéomorphisme avec $V$ un certain ouvert de $\R^n$ 
+\end{defi}
+
+\begin{defi}[atlas de $X$]
+C'est une famille de cartes $(U_i , \varphi_i)_{i \in I}$ telle que les $U_i$ recouvrent tout $X$.
+\end{defi}
+
+\begin{defi}[changement de carte]
+
+\end{defi}
+
+
+
+\begin{defi}[variété analytique complexe]
+
+\end{defi}
+
+\section{Géométrie algébrique ou approche des surfaces de Riemann via les courbes}
+
+\subsection{Généralités}
+
+\begin{defi}[Polynômes de Laurent]
+On appelle polynôme de Laurent, un polynôme pour lequel les puissances négatives de l'indéterminée seraient autorisées.
+Si $\A$ est un anneau commutatif, on note $\A[X,X^{-1}]$ l'anneau des polynômes de Laurent, les opérations sur les polynômes s'étendant naturellement aux polynômes de Laurent.
+Un polynôme de Laurent s'écrit donc 
+$$\sum_{k \in \Z} a_k X^k $$ pour $(a_k)_{k \in \Z}$ une certaine suite indexée par $\Z$ presque toute nulle.
+\end{defi}
+
+\begin{rmq}
+Dit beaucoup plus simplement, les polynômes de Laurent sont aux séries de Laurent (bien connues de l'analyse complexe), ce que les polynômes sont aux séries entières.
+\end{rmq}
+
+\begin{prop}
+\label{localisationplnlaurent}
+Culturellemnt, l'anneau des polynômes de Laurent est obtenu par localisation de l'anneau des polynômes.
+\end{prop}
+
+\begin{defi}[genre]
+
+\end{defi}
+
+\begin{defi}[Points à l'infini]
+
+\end{defi}
+
+\begin{thm}
+Le polygone de Newton donne la topologie des surfaces.
+\end{thm}
+
+
+\begin{defi}[Polygones de Newton]
+
+\end{defi}
+
+\begin{defi}[Courbe algébrique affine plane]
+C'est l'ensemble 
+$$X=\{(w,z) \in \C^2 \mid F(w,z)=0\}$$
+où F est un polynôme à deux indéterminées irréductible.
+\end{defi}
+
+
+\begin{defi}[Courbes singulières et courbes lisses]
+Une telle courbe est dite singulière si
+$$grad(F)=(\frac{\partial F}{\partial w},\frac{\partial F}{\partial z})$$
+n'est pas nul.
+Elle est dite lisse sinon.
+Dans ce dernier cas, la courbe algébrique est donc "irréductible".
+\end{defi}
+
+Une courbe réductible si elle est réunion de plusieurs courbes.
+
+%préciser qu'il n'y a pas d'équivalence etc
+
+\begin{thm}
+X est un espace topologique séparé, connexe et homéomorphe à un tore à g anses où g désigne le genre de X.
+\end{thm}
+%terminologie anses differentes de trous qui arrive sur les compacts qu'on troue véritablement.
+
+\begin{defi}[courbe hyperelliptique]
+C'est le cas
+$$X=\{(w,z) \in \C^2 \mid w^2 - P_n(z) = 0\}$$
+où $P_n$ est un polynôme à racines simples de degré n=2g+1 ou n=2g+2
+\end{defi}
+
+\begin{defi}[courbe elliptique]
+C'est le cas g=1 dans la définition précédente.
+\end{defi}
+
+\subsection{Orientabilité des surfaces}
+
+\begin{defi}[Approche intuitive des surfaces orientées]
+Une surface est orientée si on peut définir avec cohérence en tout point un vecteur normal. La sphère est orientable. Culturellement, ce n'est pas le cas du ruban de Möbius ou de la bouteille de Klein.
+\end{defi}
+
+\begin{propri}[caractérisation de l'orientabilité]
+Une surface de dimension n est orientable ssi il y existe une n-forme différentielle non nulle.
+\end{propri}
+
+\begin{prop}
+Une surface complexe est orientable.
+\end{prop}
+
+
+
+Nous abordons ensuite le résultant, qui est une notion philosophiquement utile en ce qu'elle ramène le problème à la dimension 1.
+Sa limitation est qu'en pratique, rares sont les cas où un calcul \textit{alla mano} est possible. Nous détaillons cependant un exemple classique réalisable qu'est celui de la forme réduite des polynômes de degré 3.
+
+\subsection{Résultant}
+
+\begin{defi}[matrice de sylvester]
+Soit $P(X)=a_0 X^m + a_1 X^{m-1} + ... + a_m = a_0 \prod_{k=1}{m} (X- \alpha_k)$ un polynôme de degré m (ce qui sous-entend $a_0$ non nul) dont les racines sont les $\alpha_k$. Notons f la fonction polynômiale associée.
+Soit $Q(X)=b_0 X^n + b_1 X^{n-1} + ... + b_n = b_0 \prod_{k=1}{n} (X- \beta_k)$ un polynôme de degré n (ce qui sous-entend $b_0$ non nul) dont les racines sont les $\beta_k$. Notons g la fonction polynômiale associée.
+Alors la matrice de Sylvester est
+$$S=
+\begin{pmatrix}
+a_0 & a_1 & \dots & \dots & \dots & a_m & 0 & \dots & 0 \\
+0 & a_0 & a_1 & \dots & \dots & \dots & a_m & \ddots & \vdots \\
+\vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & 0 \\
+0 & \dots & 0 & a_0 & a_1 & \dots & \dots & \dots & a_m \\
+b_0 & b_1 & \dots & \dots & b_n & 0 & \dots & \dots & 0 \\
+0 & b_0 & b_1 & \dots & \dots & b_n & 0 & \dots & 0 \\
+\vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & 0 \\
+0 & \dots & \dots & 0 & b_0 & b_1 & \dots & \dots & b_n
+\end{pmatrix}
+$$
+\end{defi}
+
+\begin{rmq}[Convention]
+On choisit quelquefois la transposée de la matrice pour définition, ce qui n'a pas d'incidence pour la définition suivante.
+\end{rmq}
+
+\begin{defi}[résultant]
+Le résultant $Res(P,Q)=Res(f,g)$ de deux polynômes (resp. fonctions polynômiales) est le déterminant de leur matrice de Sylvester.
+\end{defi}
+
+\begin{prop}[facteur commun]
+f et g ont un facteur commmun non nul ssi Res(f,g)=0
+\end{prop}
+
+
+En écrivant le polynôme, sa dérivée en $\lambda$ multiplié par $\lambda$ idem avec $\mu$, et on obtient un système de trois équations à trois inconnues.
+Cela donne naissance au discriminant du polynôme.
+
+\begin{defi}[discriminant]
+
+On définit le discriminant du polynôme, ou de la fonction polynômiale associée f, par
+$$Disc(f)=a_0^{2m-2} (-1)^{\frac{m(m-1)}{2}} \prod_{i \neq j} (\alpha_i - \alpha_j) = a_0^{2n-2} \prod_{1 \leq i < j \leq n} (\alpha_i - \alpha_j)^2$$
+\end{defi}
+
+\begin{propri}[Résultant avec la dérivée]
+On dispose de la formule
+$$Res(f,f')=(-1)^{\frac{m(m-1)}{2}} a_0 Disc(f)$$
+\end{propri}
+
+\begin{cor}[racine multiple]
+$Disc(f)=0$ ssi $f$ admet une racine multiple.
+\end{cor}
+
+\begin{ex}[Résultant du polynôme $X^3 + pX + q$ avec sa dérivée]
+
+\end{ex}
+
+\begin{rmq}
+A REVOIR Il y a une méthode en lien avec le résidu?
+\end{rmq}
+
+\subsection{Application aux courbes algébriques}
+
+\begin{defi}[discriminant d'une courbe algébrique]
+
+\end{defi}
+
+
+
+\begin{thm}
+Pour les courbes hyperelliptiques, le discriminant est exactement le discriminant du polynôme qui intervient dans la définition.
+\end{thm}
+
+\begin{prop}
+Le discriminant d'une courbe algébrique est nul ssi elle est singulière.
+\end{prop}
+
+
+On regarde PQ=0 qu'on perturbe avec un epsilon, cela preserve le polygone de Newton!
+
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Théorème de Koushirenko-Bernstein]
+    Soit $x$ le nombre de points d'intersection au système de polynômes à deux indéterminées
+    $\begin{cases}
+       P(\lambda,\mu)=0 \\
+        Q(\lambda,\mu)=0
+    \end{cases}$
+    Alors 
+    $x=S - S_1 - S_2$
+    avec le théorème de Pick où s est le nombre de points à l'infini et g le genre.
+\end{tcolorbox}
+
+\begin{defi}[Somme de Minkowski]
+
+\end{defi}
+
+\begin{defi}[Transformation complexe]
+Soit A=
+$\begin{pmatrix}
+   a & b \\
+   c & d
+\end{pmatrix}
+\in GL_2(\Z)$
+On considère
+\begin{align*} f : (\C^*)^2 &\to (\C^*)^2, \\
+(\lambda,\mu) &\mapsto (\lambda^{a} \mu^{b},\lambda^{c} \mu^{d})
+\end{align*}
+
+\end{defi}
+
+\begin{rmq}
+Dans la définition précédente,
+on n'est pas à translation ou rotation près.
+idé : matrice qui préserve $GL_2(\Z)$ ou $SL_2(\Z)$.
+\end{rmq}
+
+
+
+\begin{defi}[ordre ou degré]
+
+\end{defi}
+
+\begin{thm}
+La somme des ordres pour une variable donnée fait zéro.
+\end{thm}
+
+\begin{defi}[espace projectif $\Proj^2 (\C)$]
+Ce sont les droites de $\C^3$.
+$\Proj^2 (\C)=\{ [x:y:z] \}_{x,y,z \in \C \backslash \{0\}}=\C^2 \cup \C \cup \{\infty\} $
+\end{defi}
+
+\begin{prop}
+Il y a équivalence entre disposer d'une somme de vecteurs nulle et construire un polygone fermé convexe.
+La preuve s'obtient avec la construction. Réciproque claire.
+\end{prop}
+
+\begin{defi}[feuillet]
+
+\end{defi}
+
+\begin{ex}[de courbe elliptique]
+On considère $y^2 - (x+1)(x-1)(x-2)$.
+Après une translation correspondant à une division par y², on utilise le changement de coordonnées $x^3 y^{-2}= u$ et $xy^{-1}=v$. On obtient une nouvelle équation qui permet de gérer le point à l'infini. (TFI et u coordonnée raisonnable de v).
+$x$ est en $v^{-2}$ 
+$y$ en $v^{-3}$
+On vérifie sur l'exemple les propriétés supra!
+\end{ex}
+
+\begin{ex}[de manipulation]
+On regarde le triangle $\lambda + \mu + \lambda^{-1} + \mu^{-1} = 0$.
+\end{ex}
+
+On essaye de se ramener à l'axe des abscisses et aux racines d'un polynome $P_0(\lambda)$ dans $P_0(\lambda) + \mu P_1 + \mu^2 P_2(\lambda)$ etc
+=> effacement du degré
+
+\subsection{Quelques études concrètes}
+
+Pour rappel, 0 joue le rôle d'un infini.
+
+
+\subsubsection{droites}
+
+On peut montrer qu'il y a 3 points à l'infini.
+Il y a l'infini auquel on pense, mais il y a aussi les deux points d'intersection avec les axes.
+Le polynôme associé est $P(\lambda,\mu)=\lambda + \mu + 1$.
+On trouve d'abord $(0,-1)$ et $(-1,0)$ dans ces coordonnées.
+Il ne reste qu'à trouver le troisième point
+
+\begin{rmq}
+Il faut que l'une des deux coordonnées du couple soit nulle. Sinon, on est dans l'ensemble de définition du polynôme et l'on est juste un point de la courbe.
+C'est pour cette raison que 0 joue le rôle d'un infini.
+\end{rmq}
+
+Il est donc nécessaire de changer de coordonnées.
+On pose  $\eta=\frac{\lambda}{\mu}$ et $\rho= \frac{1}{\mu} $ (dans cet ordre) de sorte que
+$$P(\lambda,\mu)=P(\frac{\eta}{\rho},\frac{1}{\rho})=\frac{\eta}{\rho} +\frac{1}{\rho} + 1=0$$.
+Ainsi, $1 + \eta =\rho$ et dans ces coordonnées $(-1,0)$ correspond au dernier point à l'infini.
+Notons que c'est bien un nouveau point puisqu'il correspond à un $\mu$ et à un $\lambda$ infini dans l'ancien système de coordonnées.
+Ceci conclut l'étude des points à l'infini.
+
+\begin{rmq}
+Il n'y a aucun point à coordonnées entières dans l'intérieur du polygone, donc le genre est 0 et il n'est pas possible d'envisager une approche par les résidus.
+\end{rmq}
+
+
+\subsubsection{coniques}
+
+Les coniques sont plus proches des droites qu'on ne le pense.
+En fait, il y a un isomorphisme via 
+$$t \mapsto \left(\frac{at^2 + bt + c}{kt^2 + t + m},\frac{dt^2 + et + f}{gt^2 + ht + k}\right)$$
+En particulier pour le cercle, on retrouve les formules bien connues (de l'intégration) :
+$$t \mapsto \left(\frac{ 2t}{t^2+1},\frac{t^2-1}{t^2 +1}\right)$$
+
+\subsubsection{Un autre exemple}
+
+Intéressons nous au polygone de Newton $\{(1,0),(0,1),(-1,0),(0,-1)\}$.
+
+En fait, il y a un lien avec le résidu.
+
+\subsubsection{Un dernier exemple}
+
+$$y^2=x(x-1)(x-
+\lambda)$$
+La forme $\displaystyle \frac{dx}{y}$ est holomorphe. En fait, le produit $$\frac{dx}{y} \frac{d\bar{x}}{\bar{y}}\mathop{\sim}_{x\to 0}\frac{dxd\bar{x}}{|x|}$$
+et alors c'est une singularité intégrable. De mÃªme les singularités sont intégrables lorsque $x\to 1$ et $x\to \lambda$. Lorsque $\xi\to \infty$ on a
+$$\frac{dx}{y} \frac{d\bar{x}}{\bar{y}}\mathop{\sim}_{x\to \infty}\frac{dxd\bar{x}}{|x|^3}$$
+et c'est aussi une singularité intégrable.
+
+%faire le lien avec le résidu.
+%donner motif aux calculs : définir sing int
+
+\subsection{Approche alternative des précédents exemples avec la géométrie projective}
+
+\subsection{Un exercice concret}
+
+Nous proposons d'étoffer notre discours avec la résolution de ce qu'on pourrait appeler un exercice.
+
+\begin{exo}
+Pour quelles valeurs complexes de $c$ et $d$ la courbe définie par $\lambda + \lambda^{-1} + c \mu + \mu^{-1} + d =0$ est-elle singulière ?
+\end{exo}
+
+\subsection{vers une interprétation graphique}
+
+\begin{defi}[application naturellement liée à une courbe algébrique]
+On se donne $\Sigma=\{ \lambda ,\mu \mid P(\lambda,\mu)=0 \}$ une courbe algébrique.
+\begin{align*}
+\Phi : & E \to \R^2 \\
+& (\lambda,\mu) \mapsto (\ln |\lambda|,\ln |\mu|)
+\end{align*}
+
+\end{defi}
+
+\begin{defi}[amoeba]
+C'est la courbe $\mathrm{Im} (\Phi)$.
+
+\end{defi}
+
+Qualitativement, l'amoeba ressemble au polygone de Newton sur lequel on aurait posé un poulpe, dont les tentacules seraient les points à l'infini.
+
+\begin{ex}[pour les droites]
+Rappelons l'allure du polygône de Newton des droites.
+
+On écrit $$\lambda = e^{x+i \phi} \quad \mu=e^{y+i \psi}$$.
+Alors $$y=\ln |1 - e^x e^{i \phi}|$$
+\end{ex}
+
+\subsection{Théorème de décomposition de l'unité}
+
+
+
+
+\section{différentielles et fonctions holomorphes}
+
+On étudie l'interaction entre fonction holomorphe et différentielle.
+On va vers la demonstration d'un theoreme d'holomorphie des residus de Poincaré.
+On traite une courbe elliptique armé de ces outils.
+
+\subsection{Encore un mot sur l'espace tangent}
+
+On se refere par exemple à la page 46 et suivante de []
+
+
+\begin{defi}[Opérateur I]
+
+\end{defi}
+
+\begin{defi}[complexification]
+
+\end{defi}
+
+\begin{nota}
+T10 T01
+\end{nota}
+
+
+\subsection{vers le résidu de Poincaré}
+Nous sommes guidés dans cette section par l'exemple de la courbe $y^2= x(x-1)(x-2)$ notée (E).
+
+\begin{defi}[différentielle holomorphe]
+
+\end{defi}
+
+\begin{ex}
+Sur (E), nous savons que dx/y est holomorphe et
+$$\mathop{Res}\frac{dxdy}{y^2-x(x-1)(x-\lambda))}=dx\mathop{Res}_{z=y}\frac{dz}{z^2-x(x-1)(x-\lambda))}=dx\mathop{Res}_{z=y}\frac{1}{2y}\left(\frac{dz}{z-y}-\frac{dz}{z+y}\right)=\frac{dx}{2y}$$
+
+\end{ex}
+
+\begin{defi}
+$$dz=dx + i dy \text{ et } d \overline{z}= dx - i dy$$
+\end{defi}
+
+\begin{ex}
+$$dz d\overline{z} = -2i dxdy$$
+\end{ex}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Unicité de la différentielle holomorphe]
+Soit $\omega$ une forme différentielle holomorphe de la variable complexe $z$.
+Alors $\omega = f(z) \dd z$
+\end{tcolorbox}
+
+\begin{ex}[Nullité de la différentielle d'une différentielle holomorphe]
+$$df(z)=\derp{f}{z} dz + \derp{f}{\overline{z} \partial \overline{z}} = \derp{f}{z} dz$$ via Cauchy-Riemann et donc 
+$$d(f(z)dz)=(df(z))dz= \derp{f}{z} dz dz=0$$
+\end{ex}
+
+\begin{ex}
+
+\end{ex}
+
+\begin{propri}
+Une forme différentielle holomorphe est nulle si et seulement si sa partie réelle l'est.
+\end{propri}
+
+\begin{dem}
+On écrit $z=x+iy$ et $f(z)=a+ib$.
+En tant qu'application linéaire, $\dd z= \dd x + i \dd y $ ce qui donne $\omega = (a + ib) (\dd x + i \dd y)= a \dd x + i a \dd y + i b \dd x - b \dd y= (a+ib) \dd x + (ia - b) \dd y = (a \dd x - b \dd y) + i(b \dd x + a \dd y)$.
+Supposons que $\Re \omega=0$.
+Ceci signifie exactement $a \dd x = b \dd y$
+
+\end{dem}
+
+\begin{rmq}
+Leur dual est utilisé pour traduire simplement les équations de Cauchy-Riemann.
+Au passage, nous remarquons que cette définition, les différentielles semble plus naturelle que les champs de vecteurs.
+\end{rmq}
+
+\begin{thm}[Caractérisation du genre]
+Soit g le genre d'une surface.
+Alors la dimension des formes holomorphe sur la surface est de dimension g.
+En particulier, sur le tore, toutes les formes holomorphes sont identiques à multiplication par une constante près.
+\end{thm}
+
+\begin{defi}[Résidu]
+
+\end{defi}
+
+\begin{rmq}[Combat sur les conventions]
+
+Le résidu peut prendre en argument une fonction, une forme différentielle, un champ de vecteurs. Il donne un vecteur tangent, un scalaire et un carré d'un vecteur tangent, respectivement.
+
+Définition intrinsèque VS définition avec multiplication par JAc changement de coordonnées.
+
+Le résidu vit dans l'espace tangent.
+\end{rmq}
+
+\begin{defi}[Résidu en plusieurs variables]
++ théorème parenthésage (paramétrisation en qq sorte)
+\end{defi}
+
+\begin{thm}[lemme de Hartogs]
+
+\end{thm}
+
+Rewert?
+
+\begin{ex}[Calcul explicite de résidu]
+
+\end{ex}
+
+\begin{thm}
+A propos du résidu de Poincaré.
+pour les i et j dans le polygone de Newton, la différentielle obtenue est holomorphe.
+\end{thm}
+
+\begin{defi}[voisinage tubulaire]
+
+\end{defi}
+
+\begin{thm}
+chemin VS Vtub
+\end{thm}
+
+
+\begin{prop}[Convergence d'intégrales holomorphes]
+
+\end{prop}
+
+Sur (E),
+holomorphie en 0
+On utilis ele fait que x s'écrit en série formelle de y.
+On peut trouver les coefficients en regardant degré par degré.
+Il existe une formule générale (d'inversion de Lagrange), mais elle est difficilement utilisable sinon que pour les petites dimensions.
+On trouve une raltion linéaire pour chaque coeff.
+cette méthode efface la singularité issu de y=0.
+
+holomorphie en l'infini.
+On regarde les intégrales "conjugués".
+Le changement de variable polaire donne la convergence via Riemann.
+C'est une méthode alternative au changement de coordonnées.
+
+
+
+\begin{defi}[forme quadratique sur $\C$]
+
+\end{defi}
+
+\begin{thm}
+Sur $\C$, toutes les formes quadratiques non dégénérées sont équivalentes.
+Elles se ramènent donc à :
+\end{thm}
+
+
+\begin{defi}[Champ de vecteur holomorphe]
+
+\end{defi}
+
+\begin{ex}[sur la sphère]
+Changement de variable pour des champs de vecteurs holomorphes z=1/w.
+
+$$f(z)\frac{\partial}{\partial z}=f(1/w)\frac{\partial w}{\partial z}\frac{\partial}{\partial w}=f(1/w)\left(-\frac{1}{z^2}\right)\frac{\partial}{\partial w}=-w^2f(1/w)\frac{\partial}{\partial w}
+$$
+Alors $f(z)\frac{\partial}{\partial z}$ est holomorphe sur la sphère entière si $f(z)$ est holomorphe dans le plan et $-w^2f(1/w)$ l'est aussi. Alors $f(z)$ est un polynôme de degré $\leqslant 2$.
+
+\end{ex}
+
+\subsection{Inégalité de Riemann ou relation bilinéaire de Riemann}
+
+Sur une surface de genre g, sur un lacet (utre qu'un a-cycle ou un b-cycle), compte tenu de la formule de Stokes,
+$$\int_{\partial X} \omega = \int_X d \omega = 0$$
+
+\subsubsection{cas du tore}
+
+O introduit sur le tore des lacets fondamentaux : les a-cycles et b-cycles.
+Soit $\omega$ un unique vecteur de base des formes holomorphes sur le tore.
+On pose 
+$$p_a= \int_a \omega \quad  p_b =\int_b \omega  \quad \tau=\frac{p_b}{p_a}$$
+On a
+$$\frac{1}{-2i} \int \omega \overline{\omega} > 0$$
+
+On remarque que $\int \omega \omega = \int \overline{\omega} \overline{\omega} = 0$ donne une tautologie, à savoir $p_a p_b - p_b p_a =0$, alors qu'en dimension supérieure on obtiendra plus d'informations.
+
+$\omega$ étant une forme holomorphe, elle est fermée, donc exacte en vertu du lemme de Poincaré sur un carré après dépliage du tore.
+On écrit $df=\omega$
+$$\int_{carre plein} \omega \overline{\omega} = \int_{carre plein} df \overline{\omega} = \int_{carre plein} d(f \overline{\omega}) = \int_{\partial carre} f \overline{\omega}= \int_{a_+} f \overline{\omega} + \int_{b_-} f \overline{\omega} - \int_{a_-} f \overline{\omega} - \int_{b_+} f \overline{\omega}$$
+
+Par proriété de f sur le tore, et en reconnaissant les quantités qui apparaissent, et ayant la positivité stricte de l'intégrale calculée, il vient 
+$$\frac{-p_b \overline{p_a} + p_a \overline{p_b} }{-2i} >0$$
+
+En remplaçant $p_b$ en fonction de $p_a$ et $\tau $, on en déduit finalement la relation bilinéaire de Riemann :
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Inégalité de Riemann]
+$$Im(\tau) > 0$$
+\end{tcolorbox}
+
+
+
+
+
+\subsubsection{généralisation}
+
+Pour $g=2$, on est cette fois confronté à un octogone. 
+
+
+
+
+\subsection{différentielles holomorphes sur des surfaces}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Principe]
+    La sphère constitue une exception notable puisque sur celle-ci, on dispose de trois champs de vecteurs holomorphes et d'aucune différentielle holomorphe (il faut user de cartes).
+    En fait, pour les surfaces de genre supérieur, l'inverse se produit : il y a plus de différentielles que de champs de vecteurs.
+    Ceci est lié à la caractéristique d'Euler qui change de signe.
+\end{tcolorbox}
+
+\begin{prop}[Changement de coordonnées]
+Soit $z_\alpha$ et $z_\beta$ des variables complexes sur deux cartes respectivement.
+On pose $\omega_\alpha$ la forme $\dd_\alpha \dd \overline{z_\alpha}$ à une constante complexe près.
+Alors 
+$$\omega_\alpha=|\frac{\partial z_\alpha}{\partial z_\beta}|^2 \dd z_\beta \dd \overline{z_\beta}$$
+\end{prop}
+
+\begin{dem}
+Le changement de coordonnées pour les formes différentielles indique que
+$$\dd z_\alpha = \derp{z_\alpha}{z_\beta} \dd z_\beta + \derp{z_\alpha}{\overline{z_\beta}} \dd \overline{z_\beta}=\derp{z_\alpha}{z_\beta} \dd z_\beta$$ via la condition de Cauchy-Riemann puisque $z_\alpha$ est une fonction holomorphe en les variables $z_\beta et \overline{z_\beta}$.
+De même, $\dd \overline{z_\alpha}= \derp{\overline{z_\alpha}}{\overline{z_\beta}} \dd \overline{z_\beta}$.
+Enfin, la relation $\omega = \dd z_\alpha \dd \overline{z_\alpha}$ combiné à l'égalité $\derp{\overline{z_\alpha}}{\overline{z_\beta}}=\overline{\frac{\partial z_\alpha}{\partial z_\beta}}$ donne le résultat.
+
+\end{dem}
+
+
+\section{fonction $\wp$ de Weiertsras}
+
+\subsection{étude classique de la fonction}
+
+Voici une petite section concernant cette fonction à l'élégant symbole.
+On commence par un bref rappel sur les séries d'Eisenstein.
+
+Soit $\tau \in \C$.
+
+\begin{defi}[Séries d'Eisenstein]
+
+\end{defi}
+
+\begin{lem}
+$\forall z \in \C, \left( \frac{1}{(z + m + n \tau)^2} \right)_{(m,n)\in {\Z^*}^2} = +\infty$ 
+\end{lem}
+
+\begin{dem}
+\end{dem}
+
+\begin{lem}
+$\forall z \in \C, \forall k \in \Z_{\geq 2}, \left( \frac{1}{(z + m + n \tau)^{2k}} \right)_{(m,n)\in {\Z^*}^2} < +\infty$
+\end{lem}
+
+
+\begin{dem}
+On peut se contenter du cas $k=2$.
+\end{dem}
+
+
+\begin{defi}[fonction $\wp$ de Weiertsras]
+    Elle est définie via la formule :
+    $$\wp(z) = \frac{1}{z^2} + \sum_{(m,n) \in {(\Z^*)}^2 } \frac{1}{(z+m+n \tau)^2} -  \frac{1}{(m+n \tau)^2}$$
+
+\end{defi}
+
+\begin{dem}[La fonction $\wp$ de Weierstras est bien définie]
+\end{dem}
+
+\begin{rmq}
+En changeant les indices en leur opposé, on a aussi
+$$\wp(z)=\frac{1}{z^2} +  \sum_{(m,n) \in {(\Z^*)}^2 } \frac{1}{(z-m-n \tau)^2} -  \frac{1}{(m+n \tau)^2} $$
+\end{rmq}
+
+En fait, les fonctions holomorphes peuvent avoir deux périodes que je qualifierais d'incommensurables, tandis que les fonctions réelles ont de manière évidente au plus une période dans l'acception où $2\pi$ est la "seule" période de $\cos$.
+
+\begin{propri}[Périodicité]
+$$\forall a,b \in \Z, \forall z \in \C, \wp(z)=\wp(z + a + b \tau)$$
+\end{propri}
+
+\begin{propri}
+La propriété précédente est équivalente à 
+$$\begin{cases}
+    \wp(z)=\wp(z+1) \\
+    \wp(z)=\wp(z+\tau)
+\end{cases}$$
+\end{propri}
+
+\begin{dem}
+On choisit $a=1$ et $b=1$ pour particulariser et une récurrence sans difficulté donne la réciproque.
+\end{dem}
+
+Pour montrer la périodicité de $\wp$, on se sert du lemme suivant.
+
+\begin{lem}
+Soit $z \in \C$.
+On pose $\mathcal{Q} (z)= \sum_{m,n \in Z^*} \frac{1}{(z - m -n \tau)^4}$
+Alors $\forall a,b \in \Z, \mathcal{Q}(z)=\mathcal{Q}(z+a+ b \tau)$
+\end{lem}
+
+\begin{dem}
+Soit $a$ et $b$ deux entiers.
+On regarde $\mathcal{Q}(z+a+ b \tau)= \sum_{m,n \in \Z^*} \frac{1}{(z + a + b \tau - m - n \tau)^4}=\sum_{m,n \in \Z^*} \frac{1}{(z + a - m + (b - n)\tau  )^4} = \sum_{m',n' \in Z^*} \frac{1}{(z - m' -n' \tau)^4} $ 
+grâce au changement d'indice $m'=a - m$
+et $n'= b -n$.
+\end{dem}
+
+\begin{cor}
+$\wp$ est bornée car périodique.
+\end{cor}
+
+Jusqu'ici, nous avons donc simplement montré qu'en fin de compte, $\wp$ vit sur $\C / (\Z + \tau \Z) $.
+%regarder infra pr structurer un peu
+
+\begin{propri}[Développement en série de Laurent]
+    $$\wp(z) = \frac{1}{z^2} + 3 E_4 z^2 + 5 E_6 z^4 + ... $$
+\end{propri}
+
+\begin{dem}
+On procède au développement suivant :
+$$\frac{1}{(z+m+n \tau)^2} = \frac{1}{(m+n \tau)^2 (1 + \frac{z}{m+n \tau})^2}
+= \frac{1}{(m+n \tau)^2} \bigl( 1 - 2 \frac{z}{n+m \tau} + 3 \frac{z^2}{(n+m \tau)^2} - 4 \frac{z^3}{(n+m \tau)^3} + 5 \frac{z^4}{(n+m \tau)^4} - ... \bigr)$$
+Ceci est justifié par l'identité $(1 - z + z^2 - z^3 + ...)^2 = 1 - 2z + 3z^2 - 4z^3 + 5 z^4 ...$ qui intervient dans le développement en série géométrique. Avec la même technique que celle utilisée pour trouver cette identité, nous trouverons plus tard l'expression de $\wp^3$, $\wp'^2$ etc.
+Utilisant les notations standards des séries d'Eisenstein, on trouve le DSL suivant
+$$\wp(z) = \frac{1}{z^2} + 3 E_4 z^2 + 5 E_6 z^4 + ... $$
+Pour cela, il faut remarquer que les séries "impaires" (en tant que coefficient du DSL) sont nulles car les termes négatifs et positifs sont en correspondance pour se simplifier lorsque la puissance au dénominateur est impaire.
+La définition de $\wp$ elle-même est la cause de la simplification qui s'opére avec le terme en $z$.
+\end{dem}
+
+\begin{propri}[Equation différentielle vérifiée par $\wp$]
+    $$\wp'(z)^2 = 4 \wp(z)^3 - 60 E_4 \wp(z) - 140 E_6$$
+\end{propri}
+
+
+
+% décaler le DSL avant pr faire lemme et pour ordonner un peu.
+\begin{dem}
+
+En dérivant le DSL de $\wp$,
+$$\wp'(z)= - \frac{2}{z^3} + 6 E_4 z + 20 E_6 z^3 + ...$$
+D'où
+$$\wp'(z)^2= - \frac{4}{z^6} - 24 E_4 \frac{1}{z^2} 640 E_6 +36 {E_4}^2 z^2 + ...$$
+De plus, en continuant calmement de regarder les premiers termes du produit des DSL, on trouve
+$$\wp(z)^2= \frac{1}{z^4} + 5 E_6 \frac{1}{z^2} + 6E_4 + 5 E_6 z^2 + 9 {E_4}^2 z^4$$
+qui permet en multipliant encore par $\wp$ de trouver
+$$\wp(z)^3= \frac{1}{z^6} + 5 E_6 \frac{1}{z^4} + 9 E_4 \frac{1}{z^2} + (10 + 15 E_4 )E_6 + (27 {E_4}^2 + 25 {E_6}^2) z^2  + 45 E_4 E_6 z^4 + ... $$.
+On constate donc que 
+$$ 4 \wp(z)^3 - 60 E_4 \wp(z) - 140 E_6 = 4 (\frac{1}{z^6} + 5 E_6 \frac{1}{z^4} + 9 E_4 \frac{1}{z^2} + (10 + 15 E_4 )E_6 + (27 {E_4}^2 + 25 {E_6}^2) z^2  + 45 E_4 E_6 z^4 + ... ) - 60 E_4 (\frac{1}{z^2} + 3 E_4 z^2 + 5 E_6 z^4 +...) -140 E_6 $$
+$$=\frac{4}{z^6} + 20 E_6 \frac{1}{z^4} + 36 E_4 \frac{1}{z^2} + (40 + 60 E_4 )E_6 + 4(27 {E_4}^2 + 25 {E_6}^2) z^2  + 180 E_4 E_6 z^4 + ... + \frac{-60 E_4}{z^2} -180 (E_4)^2 z^2 -300 E_6 E_4 z^4 +... -140 E_6 $$
+$$=\frac{4}{z^6} + 20 E_6 \frac{1}{z^4} + 36 E_4 \frac{1}{z^2} - 60 E_4 \frac{1}{z^2}+ (40 + 60 E_4 )E_6 - 140 E_6 + (4(27 {E_4}^2 + 25 {E_6}^2) - 180 (E_4)^2) z^2  + (180 E_4 E_6 -300 E_6 E_4  ) z^4 + ...   +... $$
+Ceci permet de trouver une équation différentielle vérifiée par $\wp$.
+
+A COMPLETER
+
+En effet, on voit au développement en série de Laurent que $\wp'(z)^2 - 4 \wp(z)^3 + 60 E_4 \wp(z) + 140 E_6$ est une fonction holomorphe sur tout $\C$.
+Ensuite, $\wp^3$ et $\wp'$ sont aussi périodiques donc la fonction entière précédente est aussi périodique donc bornée.
+Enfin, $\wp'(1)^2 - 4 \wp(1)^3 + 60 E_4 \wp(1) + 140 E_6=0$
+D'après le théorème de Liouville, l'équation différentielle annoncée est vérifiée puisque la valeur de la constante est donnée par 0.
+
+
+
+\end{dem}
+
+\subsection{fonctions issues de $\wp$}
+
+La fonction $\wp$ est en fait paramétrisé par $\tau$ ce qu'on reflète désormais dans la notation $\wp_\tau$.
+On s'autorise néanmoins de noter toujours $\wp$ pour $\wp_\tau$.
+PAr exemple, avec une simple réindexation
+
+
+\begin{propri}
+$$\wp_{\frac{1}{\tau}} (\frac{z}{\tau}) = \wp (z)$$
+\end{propri}
+
+
+\subsection{Vers les fonctions $\Theta$}
+
+Il existe 4 fonctions $\Theta$.
+
+
+\section{Divers}
+Dans cette section sont regroupés des résultats hétéroclites qui peuvent servir.
+
+\subsection{Caractéristique d'Euler}
+
+
+\begin{defi}[Caractéristique d'Euler]
+Soit X un espace topologique.
+\end{defi}
+
+\begin{propri}[Opérations sur la caractéristique d'Euler]
+\begin{enumerate}
+\item Soient A et B deux ensembles disjoints.
+$\chi(A \cup B)=\chi(A) \cup \chi(B)$
+\item Soient A et B deux ensembles
+$\chi(A \times B)=\chi(A) \chi(B)$
+\item Soit h un homéomorphisme.
+$\chi(h(X))=\chi(X)$
+\end{enumerate}
+\end{propri}
+
+
+\begin{propri}[Caractéristiques d'Euler usuelles]
+
+\begin{itemize}
+\item Si X est réduit à un point
+$\chi(X)=1$
+\item Soit C un convexe fermé 
+$\chi(C)=1$
+\item Soit $S^1$ le cercle unité de $\R^2$
+$\chi(S^1)=0$
+\item Soit $S^2$ le sphère unité de $\R^3$
+$\chi(S^2)=2$
+\item On note g le genre d'un polyèdre P et
+$\chi(P)=2-2g$ est éminemment négative
+\end{itemize}
+
+\begin{rmq}
+La dernière propriété peut être vue comme une définition alternative du genre.
+\end{rmq}
+
+\begin{cor}
+$\chi(tore)=0$ par produit de cercles.
+Soit I un intervalle ouvert.
+$\chi(I)=-1$
+\end{cor}
+
+\end{propri}
+
+\subsection{}
+
+\begin{thm}[Théorème de Pick]
+On se place sur une "grille" du plan euclidien.
+Autrement dit, tous les points considérés sont à coordonnées entières.
+On note A l'aire d'un polygône d'ordre $n>2$.
+On note s le nombre de points sur le bord du polygône (il y en a au moins n), g le nombre de points à l'intérieur du polygône.
+On dispose alors de la formule suivante :
+$$A=g+\frac{s}{2}-1$$
+\end{thm}
+
+\begin{dem}[Esquisse]
+par récurrence sur n.
+L'initialisation est la partie délicate. Elle repose sur le fait qu'on connait l'aire des triangles rectangles grâce aux rectangles eux-mêmes et qu'on peut d'un triangle former un rectangle en complétant convenablement le triangle à l'aide de triangles rectangles. On se convainc que cela achève l'initialisation si toutefois on utilise dès à présent l'hérédité, ou plutôt un calcul similaire qu'on omettra ici.
+Pour l'hérédité, étant donné un polygone à n+1 côtés, on choisit un sommet arbitraire qui donne naissance à un polygone à n sommets et à un triangle de sorte que l'union de ces deux figures redonnent le polygone original. Le théorème est vrai pour les deux sous-figures, et en comptant convenablement les points du plan intervenant dans les deux à la fois, on arrive au résultat.
+\end{dem}
+
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Résidu de Poincaré]
+    Il étend le résidu usuel de l'analyse complexe. En fait, à chaque trou (qui indexe le genre) est naturellement associée une forme différentielle.
+\end{tcolorbox}
+
+Pour plus tard peut-être :
+
+On dispose de la formule générale suivante utile pour gérer par exemple les points à l'infini :
+
+$$\omega_{i,j}= Res \frac{d\lambda d\mu \lambda^i \mu^j}{\lambda \mu P(\lambda \mu)}$$
+
+
+\subsection{objet géométrique complexe}
+
+\begin{prop}[Cylindre]
+    Soit $\varepsilon >0$.
+$\{(x,y) \in \C \mid xy=\varepsilon$ peut être vu comme un cylindre.
+\end{prop}
+
+\begin{dem}
+Nous entendons par là l'idée suivante : un cylindre est le produit d'un cercle et d'une droite.
+Or, en tant que nombres complexes, $x=r_1 e^{i t_1} $ et $y=r_2 e^{i t_2}$.
+Donc le lieu géométrique se résume à $\{ (r,t)\in \R_+^* \times [0;2 \pi] \mid r e^{i t} = \varepsilon \}$.
+Ceci prouve l'énoncé en vertu du sens que nous avons donné à "cylindre".
+\end{dem}
+
+
+\begin{enumerate}
+\item En fait, $xy=1$ se réécrit $x^2 + y^2 = 1$ dans $\C$.
+On effectue le changement de variable linéaire de matrice
+$\begin{pmatrix}
+1 & 1\\
+i & -i
+\end{pmatrix}$ qui est bien sûr inversible.
+On écrit donc
+$
+\begin{cases}
+x=a+ib \\
+y=a-ib
+\end{cases}$
+\item 
+\end{enumerate}
+
+
+\begin{defi}[hyperboloïde de révolution à une nappe]
+
+\end{defi}
+
+\begin{defi}[hyperboloïde de révolution à deux nappes]
+
+\end{defi}
+
+\section{Géométrie tropicale}
+
+On peut retrouver le squelette (amibe) des courbes algébriques avec une approche un peu plus exotique.
+
+\subsection{Avertissement}
+
+Cette section n'a pas forcément pour vocation de figurer dans le texte final.
+Mais il est utile d'agglomérer ici les informations concernant le sujet au cas ouù cela peut servir.
+
+\begin{rmq}
+La terminologie tropicale est très inadaptée au sens où elle ne reflète pas le contenu mathématique de la théorie mais plutôt une aire géographique de son prétendu inventeur de manière stéréotypée.
+\end{rmq}
+
+\subsection{$\R$ vu comme semi-corps}
+
+\begin{lem}[Approche analytique du maximum]
+    Supposons $x \neq y \in \R $
+    $$\max(x,y)= \lim_{\lambda \tend +\infty}  \left(\frac{\ln(e^{\lambda x} + e^{\lambda y})}{\lambda}\right)$$
+\end{lem}
+
+\begin{dem}[par disjonction de cas]
+    Soit $\lambda > 0$.
+\begin{enumerate}
+        \item Cas $x > y$. D'une part, $\max(x,y)=x$. D'autre part,
+    $$e^{\lambda x} + e^{\lambda y} = e^{\lambda x} (1 + e^{\lambda (y-x)})$$
+    Avec la propriété de morphisme du logarithme,
+     $ \frac{\ln(e^{\lambda x} + e^{\lambda y})}{\lambda} =  x + \frac{\ln(1 + e^{\lambda (y-x)})}{\lambda} $
+     Mais $e^{\lambda (y-x)} \tendqd{\lambda}{+\infty} 0$ permet d'obtenir $\frac{\ln(1 + e^{\lambda (y-x)})}{\lambda} \underset{\lambda \tend +\infty}{\thicksim} \frac{e^{\lambda (y-x)}}{\lambda} \tendqd{\lambda}{+\infty} 0$ avec les croissances comparées.
+     D'où l'égalité recherchée.
+     \item Cas $x < y$. D'une part, $\max(x,y)=y$.
+D'autre part, en procédant à une factorisation par $e^{\lambda y}$ cette fois, on trouve 
+$ \left(\frac{\ln(e^{\lambda x} + e^{\lambda y})}{\lambda}\right) = y + \frac{\ln(e^{\lambda (x-y)} + 1)}{\lambda} $ et tout comme avant $e^{\lambda (x-y)} \tendqd{\lambda}{+\infty} 0$ permet de conclure \textit{mutatis mutandis}.
+
+\end{enumerate}
+\end{dem}
+
+\begin{defi}[addition tropicale]
+    
+\end{defi}
+
+\begin{defi}[produit tropical]
+    
+\end{defi}
+
+\begin{thm}[Obtention de nouvelles identités]
+
+\end{thm}
+
+\begin{ex}[à revérifier...]
+    \begin{enumerate}
+    \item $(x+y)^2=x^2 + 2xy + y^2$ permet de déduire l'identité
+    $$2\max(x,y)=\max(2x,2+x+y,2y)$$
+
+    \end{enumerate}
+
+\end{ex}
+
+\begin{prop}
+La fonction de Weierstras fait le lien entre la courbe elliptique $y=P_3(x)$ et le quotient de $\C$ par $m+n \tau$.
+Le lien "réciproque" s'obtient avec l'intégrale de la différentielle associée (chemin sur le tore).
+\end{prop}
+
+
+
+\section{Brouillon}
+
+\subsection{piste éventuelle pour plus tard}
+
+Dérivée de Lie?
+
+différentielle commute avec f* : propriété encore non digérée.
+cf Lafontaine (mini énoncé avec exp.)
+
+La proposition \ref{localisationplnlaurent} non plus.
+
+théorie de Hodge? Opérateur de Hodge ?
+
+pas de fonction holomorphe sur CP1 car divergence 
+
+antisymétrisée d'une forme k-linéaire?
+
+\textbf{Le théorème de Green-Riemann est un cas particulier du théorème de Stokes}
+Calcul explicite.
+
+\textbf{produit symétrique}
+A ne surtout pas confondre avec le produit extérieur. Beaucoup d'ambiguité.
+
+\textbf{Algèbre définie par générateurs et relations}
+variable paire et impaire.
+x et y VS dx et dy plutôt notées avec des lettres grecques.
+
+\subsection{à faire}
+
+\textbf{géométrie différentielle}
+Définition espace cotangent, etc.
+espace en un point VS espace entier.
+definition alternative de la derivee directionnelle.
+Le quotient par la relation est au bon endroit ?
+
+\textbf{Cylindre et hyperboloïdes}
+
+
+
+\textbf{lemme de Poincaré pour un carré de R².} 
+Attention. Ce n'est pas vrai pour les 0-formes !
+notation du 28 mars : faux pour df avec f lisse puisque sinon $\eta$ est une -1-forme...
+En revanche, c'est simple pour f=adx + bdy puisque le theoreme de Schwarz montre qu'il suffit de trouver g telle que b= et a=.
+
+
+\textbf{exerciceS}
+IMPORTANT courbe elliptique point à l'infini à chercher 
+(comme sur le doc NEWTON)
+4 exemples à traiter cf plus haut sous section dédiée.
+
+
+\textbf{sur le feu}
+
+Résidu : une variable gelée.
+Interet à l'ordinateur (les calculs sont lourds meme pour un résidu "simple"). Le discriminant provient d'un résidu successif en gelant au fur et à mesure les variables. Il y a une projection sur un axe.
+
+\textbf{isomorphisme champs de vecteurs/formes différentielles}
+dérivée directionnelle : définition avec les courbes
+
+\textbf{produit symétrique} dxdy !!! attention (quasi exclusivement pour la métrique)
+
+\textbf{dualité}
+def fibré cotangent : révision dualité
+
+dualité chp de vecteurs. Une référence ?
+V dans V etoile transpose les vecteurs. JAC transposee etc!
+
+forme bilineaire pour passer de l'un a l'autre alpha(v)[v]
+forme bilineaire mais un argument fixé...
+métrique : forme quadratique telle que ...
+
+\textbf{intégration des formes différentielles}
+formule du changement de variable, généralisé avec f*.
+
+\textbf{métrique}
+lien gradient differentielle ( coordonnées ... via metrique)
+metrique inverse : changement de langage (dx VS d/dx)
+bijection reciproque billineaire dualise $y(Ax) et x'(A^{-1} y')$
+
+\subsection{Suite au rdv du 23 mai}
+
+intégrale Fourier en lien avec étoile de Hodge!!
+Trnaformation de Legendre
+
+Utiliser la géométrie projective pour trouver les points singuliers (droites et coniques)
+copie de C* union pt (pour passer à l'adhérence et obtenir un compact) par côté.
+Ou copie de CP2 mais attention aux doublons.
+Surface de Hirzebruch
+Surface torique
+
+dérivée intérieur
+dérivée de Lie
+flot
+
+tiré en arrière
+
+\subsection{suite au rdv du 3 juin}
+
+périodicité de $\wp$.
+produit intérieur et différentielle ....
+matrice antisymetrique => dy
+Pfafien
+fonction theta
+
+\subsection{suite au rdv du 14 juin}
+genre via polygone de Newton grace a formule somme indice chp de vecteur egal carac Euler de variété.
+lacet de l'analyse complexe généralisé avec application de S1 dans S1 (en ft Sk dans Sk) qui a un degré. somme sign $\dd f$.
+On retrv chi de tore et sphere.
+omega forme diff holo nulle ssi sa partie relle l'est demo simple à faire.
+metrique rho donne formule qui traduite avec le th donne 2-2g=2-2x ou x est la surface hachuree du polygone de newton.
+fonction de Morse : on retrouve la caracteristique d'euler du tore caricatural et du tore moins quelconque.
+indice d'une forme quadratique et formule somme alternee à cette puissance pr carac d'euler.
+forme diff tensorisés (forme bili) VS forme quadra.
+metrique usuelle VS polaire.
+théorème de décomposition de l'unité.
+donne naissance à omega alpha tq ... courbe algebrique avec c et d à trouver.
+
+
+\subsection{à évoquer}
+
+\begin{enumerate}
+
+\item exponentielle d'une 2-forme différentielle : pourquoi des $x_i$ et des $y_j$ ?
++ généralisation : idée de preuve ?
+
+\item exercices du TD de calculs différentielle L2  COURS associé
+Transformation de Legendre ?
+
+\item intégrale de forme diff : à faire sur des exemples comme en TD (formule de Stokes etc)
+
+\item calcul explicite pour les 4 exemples.
+
+\item calcul de résidu en lien avec le polygone de Newton.
+Demander un exemple concret. Pour le résidu de Poincaré : https://analysis-situs.math.cnrs.fr/Poincare-et-les-residus-des-integrales-doubles.html
+
+\item demo forme diff holo nulle ssi Re l'est.
+
+\end{enumerate}
+
+\begin{enumerate}
+
+
+\item différentielle holomorphe (livre de Claire Voisin très dur)
+approche intuitive car beaucoup trop élaboré à expliquer.
+
+\item cartes : les définir pour tout le monde
+
+\end{enumerate}
+
+\subsection{Pour la relecture}
+
+\begin{enumerate}
+    \item vérifier si toutes les variables ont fixées. Quelles sont les "sauf mention explicite du contraire?"
+    \item filtrer les abréviations et la syntaxe (point, majuscule...)
+    \item remarque sur le programme de L3 ? rappel de TD ?
+\end{enumerate}
+
+\begin{itemize}
+\item choisir si $\OM{p}$ ou idem avec U un ouvert.
+\item différentielle : $\dd$ ou $d$ ?
+\item Doit-on sous-entendre le produit extérieur ? $dxdy$ ou $dx \wedge dy$ ?
+\end{itemize}
+
+\section{BIBILOGRAPHIE}
+
+Sommaire
+
+WIKIPEDIA : renvois pour la courbe elliptique, caractéristique d'Euler
+
+Lafontaine
+
+Lesfari (2 livres)
+
+article Newton V.V. Fock
+
+pdf formes différentielles (2 pdf)
+
+p.46 et suivantes de Théorie de Hodge, Claire Voisin.
+
+p.90 Surfaces de Riemann (relation bilineaire de Riemann)
+
+Géométrie différentielle, variétés, courbes et surfaces Marcel Berger Bernard Gostiaux
+
+pour les fonctions de morse et variété et partition de l'unité : https://www.imo.universite-paris-saclay.fr/~patrick.massot/enseignement/mat553/sect0016.html
+
+à voir : https://perso.eleves.ens-rennes.fr/~tpier758/cours/cdho.pdf
+https://www-fourier.ujf-grenoble.fr/~bouche/pdfTeX/geodif.pdf
+
+
+\end{document}
+
